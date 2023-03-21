@@ -20,17 +20,17 @@ function App() {
             }}
         >
             <Router>
-                {isLoggedIn && <Nav/>}
+                {isLoggedIn && <Nav />}
                 <Routes>
-                    <Route path="/login" element={isLoggedIn ? <Navigate to="/dashboard" /> : <LoginPage />} />
+                    <Route path="/login" element={isLoggedIn ? <DashboardPage /> : <LoginPage />} />
                     {routes.map((route) => (
                         <Route
                             key={route.path}
                             path={route.path}
-                            element={isLoggedIn ? route.component : <Navigate to="/login" />}
+                            element={isLoggedIn ? route.component : <LoginPage />}
                         />
                     ))}
-                    <Route path="*" element={isLoggedIn ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+                    <Route path="*" element={isLoggedIn ? <DashboardPage /> : <LoginPage />} />
                 </Routes>
             </Router>
         </ConfigProvider>
