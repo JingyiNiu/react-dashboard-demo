@@ -20,7 +20,7 @@ function App() {
             }}
         >
             <Router>
-                <Nav />
+                {isLoggedIn && <Nav/>}
                 <Routes>
                     <Route path="/login" element={isLoggedIn ? <Navigate to="/dashboard" /> : <LoginPage />} />
                     {routes.map((route) => (

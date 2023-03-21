@@ -11,8 +11,9 @@ const Nav = () => {
 
     const onLogout = () => {
         confirm({
-            title: 'Do you Want to Logout?',
+            title: 'Are you sure to log out?',
             icon: <ExclamationCircleFilled />,
+            okText: 'Yes',
             onOk() {
                 removeItemFromLocalStorage(TOKEN_KEY);
                 setTimeout(() => {
