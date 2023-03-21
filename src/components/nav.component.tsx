@@ -1,7 +1,7 @@
 import React from 'react';
 import { removeItemFromLocalStorage } from '../utils/utils';
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Button, Modal, Space } from 'antd';
+import { Modal } from 'antd';
 import LogoSvg from './logo';
 
 const Nav = () => {
