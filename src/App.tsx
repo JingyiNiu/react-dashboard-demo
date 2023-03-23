@@ -1,15 +1,27 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import { useAuth } from './hooks/useAuth';
+
+import Sidebar from './components/sidebar';
+import Nav from './components/nav';
+
 import LoginPage from './pages/login.page';
 import DashboardPage from './pages/dashboard.page';
+import CreateArticlePage from './pages/articles/create.page';
+import EditArticlePage from './pages/articles/edit.page';
+import ListAllArticlesPage from './pages/articles/list.page';
+
 import './App.css';
-import Nav from './components/nav.component';
 
 function App() {
     const isLoggedIn = useAuth();
 
-    const routes = [{ path: '/dashboard', component: <DashboardPage /> }];
+    const routes = [
+        { path: '/dashboard', component: <DashboardPage /> },
+        { path: '/articles', component: <ListAllArticlesPage /> },
+        { path: '/articles/create', component: <CreateArticlePage /> },
+        { path: '/articles/edit/:id', component: <EditArticlePage /> },
+    ];
 
     return (
         <ConfigProvider
@@ -20,18 +32,25 @@ function App() {
             }}
         >
             <Router>
-                {isLoggedIn && <Nav />}
-                <Routes>
-                    <Route path="/login" element={isLoggedIn ? <DashboardPage /> : <LoginPage />} />
-                    {routes.map((route) => (
-                        <Route
-                            key={route.path}
-                            path={route.path}
-                            element={isLoggedIn ? route.component : <LoginPage />}
-                        />
-                    ))}
-                    <Route path="*" element={isLoggedIn ? <DashboardPage /> : <LoginPage />} />
-                </Routes>
+                <div className="min-h-screen flex">
+                    {isLoggedIn && <Sidebar />}
+                    <div className="flex-grow">
+                        {isLoggedIn && <Nav />}
+                        <div className="p-4">
+                            <Routes>
+                                <Route path="/login" element={isLoggedIn ? <DashboardPage /> : <LoginPage />} />
+                                {routes.map((route) => (
+                                    <Route
+                                        key={route.path}
+                                        path={route.path}
+                                        element={isLoggedIn ? route.component : <LoginPage />}
+                                    />
+                                ))}
+                                <Route path="*" element={isLoggedIn ? <DashboardPage /> : <LoginPage />} />
+                            </Routes>
+                        </div>
+                    </div>
+                </div>
             </Router>
         </ConfigProvider>
     );

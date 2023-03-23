@@ -1,31 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("./fonts.css");
+@import url('./fonts.css');
 
 body {
-  margin: 0;
-  font-family: "Poppins", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+        'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+:root {
+    --primary-100: #eef6f7;
+    --primary-500: #65bdc4;
+    --primary-800: #367c83;
+    --primary-900: #038894;
+}
 .ant-btn-primary {
-  background-color: #65bdc4;
+    background-color: var(--primary-500);
 }
 
 .ant-btn-primary.ant-btn-primary.ant-btn-primary:hover {
-  background-color: #367c83;
+    background-color: var(--primary-800);
 }
 
 .ant-btn-default.ant-btn-default:hover {
-  color:#65bdc4;
-  border-color: #65bdc4;
+    color: var(--primary-500);
+    border-color: var(--primary-500);
 }

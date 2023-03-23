@@ -9,3 +9,12 @@ export const getItemInLocalStorage = (key: string) => {
 export const removeItemFromLocalStorage = (key: string) => {
     return localStorage.removeItem(key);
 };
+
+export const formatDate = (date: any) => {
+    const dateObj = new Date(date);
+    const day = dateObj.getDate();
+    const month = dateObj.getMonth() + 1;
+    const year = dateObj.getFullYear();
+    const outputDate = `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
+    return outputDate;
+};
