@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import { useAuth } from './hooks/useAuth';
 
@@ -38,15 +38,15 @@ function App() {
                         {isLoggedIn && <Nav />}
                         <div className="p-4">
                             <Routes>
-                                <Route path="/login" element={isLoggedIn ? <DashboardPage /> : <LoginPage />} />
+                                <Route path="/login" element={isLoggedIn ? <Navigate to='/dashboard' /> : <LoginPage />} />
                                 {routes.map((route) => (
                                     <Route
                                         key={route.path}
                                         path={route.path}
-                                        element={isLoggedIn ? route.component : <LoginPage />}
+                                        element={isLoggedIn ? route.component : <Navigate to='/login' />}
                                     />
                                 ))}
-                                <Route path="*" element={isLoggedIn ? <DashboardPage /> : <LoginPage />} />
+                                <Route path="*" element={isLoggedIn ? <DashboardPage /> : <Navigate to='/login' />} />
                             </Routes>
                         </div>
                     </div>
