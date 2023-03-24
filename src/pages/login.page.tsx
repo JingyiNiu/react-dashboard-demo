@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Input, Form } from 'antd';
 import axiosClient from '../axios.config';
-import { removeItemFromLocalStorage, setItemInLocalStorage } from '../utils/utils';
+import { removeItemFromLocalStorage, setItemInLocalStorage, TOKEN_KEY } from '../utils/utils';
 
 const LoginPage = () => {
     const API_END_POINT = '/api/login/admin';
-    const TOKEN_KEY = process.env.REACT_APP_LOCAL_TOKEN || 'token';
 
     const [loginError, setLoginError] = useState<string>('');
 

@@ -8,7 +8,7 @@ const CreateArticlePage = () => {
 
     return (
         <>
-            <div>CreateArticlePage</div>
+            <h2 className="text-xl font-bold mb-8">Create New Article</h2>
             <TinyMceEditor onChange={handleEditorValueChange} />
         </>
     );

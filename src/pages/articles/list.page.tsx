@@ -7,7 +7,7 @@ import axiosClient from '../../axios.config';
 import AntdTable from '../../components/antd-table';
 
 const ListAllArticlesPage = () => {
-    const API_END_POINT = '/api/article';
+    const API_END_POINT = '/api/admin/article';
     const { confirm } = Modal;
 
     const [data, setData] = useState([]);
@@ -18,7 +18,9 @@ const ListAllArticlesPage = () => {
             .then((res) => {
                 setData(res.data.data);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(err)
+            });
     }, []);
 
     const handleDelete = (id: string) => {

@@ -18,3 +18,5 @@ export const formatDate = (date: any) => {
     const outputDate = `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
     return outputDate;
 };
+
+export const TOKEN_KEY = process.env.REACT_APP_LOCAL_TOKEN || 'token';

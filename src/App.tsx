@@ -3,18 +3,17 @@ import { ConfigProvider } from 'antd';
 
 import Sidebar from './components/sidebar';
 import Nav from './components/nav';
-
 import LoginPage from './pages/login.page';
 import DashboardPage from './pages/dashboard.page';
 import CreateArticlePage from './pages/articles/create.page';
 import EditArticlePage from './pages/articles/edit.page';
 import ListAllArticlesPage from './pages/articles/list.page';
+import { getItemInLocalStorage, TOKEN_KEY } from './utils/utils';
 
 import './App.css';
-import { getItemInLocalStorage } from './utils/utils';
 
-function App() {
-    const isToken = getItemInLocalStorage(process.env.REACT_APP_LOCAL_TOKEN || 'token');
+function App() {    
+    const isToken = getItemInLocalStorage(TOKEN_KEY);
 
     const routes = [
         { path: '/dashboard', component: <DashboardPage /> },

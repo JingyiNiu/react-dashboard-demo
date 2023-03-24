@@ -1,11 +1,9 @@
 import React from 'react';
-import { removeItemFromLocalStorage } from '../utils/utils';
+import { removeItemFromLocalStorage, TOKEN_KEY } from '../utils/utils';
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Modal } from 'antd';
 
 const Nav = () => {
-    const TOKEN_KEY = process.env.REACT_APP_LOCAL_TOKEN || 'token';
-
     const { confirm } = Modal;
 
     const onLogout = () => {
