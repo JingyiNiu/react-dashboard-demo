@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
-import { useAuth } from './hooks/useAuth';
 
 import Sidebar from './components/sidebar';
 import Nav from './components/nav';
@@ -12,9 +11,10 @@ import EditArticlePage from './pages/articles/edit.page';
 import ListAllArticlesPage from './pages/articles/list.page';
 
 import './App.css';
+import { getItemInLocalStorage } from './utils/utils';
 
 function App() {
-    const isLoggedIn = useAuth();
+    const isToken = getItemInLocalStorage(process.env.REACT_APP_LOCAL_TOKEN || 'token');
 
     const routes = [
         { path: '/dashboard', component: <DashboardPage /> },
@@ -33,20 +33,23 @@ function App() {
         >
             <Router>
                 <div className="min-h-screen flex">
-                    {isLoggedIn && <Sidebar />}
+                    {isToken && <Sidebar />}
                     <div className="flex-grow">
-                        {isLoggedIn && <Nav />}
+                        {isToken && <Nav />}
                         <div className="p-4">
                             <Routes>
-                                <Route path="/login" element={isLoggedIn ? <Navigate to='/dashboard' /> : <LoginPage />} />
+                                <Route
+                                    path="/login"
+                                    element={isToken ? <Navigate to="/dashboard" /> : <LoginPage />}
+                                />
                                 {routes.map((route) => (
                                     <Route
                                         key={route.path}
                                         path={route.path}
-                                        element={isLoggedIn ? route.component : <Navigate to='/login' />}
+                                        element={isToken ? route.component : <Navigate to="/login" />}
                                     />
                                 ))}
-                                <Route path="*" element={isLoggedIn ? <DashboardPage /> : <Navigate to='/login' />} />
+                                <Route path="*" element={isToken ? <DashboardPage /> : <Navigate to="/login" />} />
                             </Routes>
                         </div>
                     </div>

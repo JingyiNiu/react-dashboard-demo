@@ -4,7 +4,7 @@ import axiosClient from '../axios.config';
 import { removeItemFromLocalStorage, setItemInLocalStorage } from '../utils/utils';
 
 const LoginPage = () => {
-    const API_END_POINT = '/api/login';
+    const API_END_POINT = '/api/login/admin';
     const TOKEN_KEY = process.env.REACT_APP_LOCAL_TOKEN || 'token';
 
     const [loginError, setLoginError] = useState<string>('');
