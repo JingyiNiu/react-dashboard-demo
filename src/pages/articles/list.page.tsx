@@ -14,7 +14,6 @@ const ListAllArticlesPage = () => {
     const API_END_POINT = '/api/admin/article';
     const { confirm } = Modal;
 
-    const [data, setData] = useState([]);
     const [tableData, setTableData] = useState([]);
     const [tableHeader, setTableHeader] = useState<any>([]);
 
@@ -112,7 +111,6 @@ const ListAllArticlesPage = () => {
         axiosClient
             .get(API_END_POINT)
             .then((res) => {
-                setData(res.data.data);
                 formatDataForTable(res.data.data);
                 generateTableHeader(res.data.data);
             })
