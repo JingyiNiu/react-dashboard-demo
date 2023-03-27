@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Input, Form } from 'antd';
+import { Button, Input, Form, Select } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import H2Title from '../../components/custom/h2title';
@@ -15,6 +15,7 @@ const EditArticlePage = () => {
         title: '',
         slug: '',
         content: '',
+        is_public: 0,
     };
 
     const [form] = Form.useForm();
@@ -58,6 +59,7 @@ const EditArticlePage = () => {
     };
 
     const onSubmit = (values: any) => {
+        console.log(values);
         id ? updateArticle(values) : createArticle(values);
     };
 
@@ -99,6 +101,15 @@ const EditArticlePage = () => {
 
                 <Form.Item name="slug" label="Slug" rules={[{ required: true }]} className="mb-8">
                     <Input placeholder="slug" size="large" value={slug} />
+                </Form.Item>
+
+                <Form.Item name="is_public" label="Slug" rules={[{ required: true }]} className="mb-8">
+                    <Select
+                        options={[
+                            { value: 0, label: 'No' },
+                            { value: 1, label: 'Yes' },
+                        ]}
+                    />
                 </Form.Item>
 
                 <Form.Item name="content" label="Content" rules={[{ required: true }]} className="mb-8">

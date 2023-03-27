@@ -3,6 +3,7 @@ export interface ArticleInterface {
     title: string;
     slug: string;
     content: string;
+    is_public: number;
     created_at?: string | null;
     updated_at?: string | null;
 }

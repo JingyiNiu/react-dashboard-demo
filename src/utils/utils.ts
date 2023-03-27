@@ -20,3 +20,13 @@ export const formatDate = (date: any) => {
 };
 
 export const TOKEN_KEY = process.env.REACT_APP_LOCAL_TOKEN || 'token';
+
+export const showTextLength = (text: string = '', length: number = 0) => {
+    const result = text.length < length ? text : text.slice(0, length) + '...';
+    return result;
+};
+
+export const capitalizeText = (text: string) => {
+    const result = text.charAt(0).toUpperCase() + text.slice(1);
+    return result;
+};
