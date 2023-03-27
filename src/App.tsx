@@ -1,14 +1,17 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
+import { getItemInLocalStorage, TOKEN_KEY } from './utils/utils';
 
 import Sidebar from './components/sidebar';
 import Nav from './components/nav';
+
 import LoginPage from './pages/login.page';
 import DashboardPage from './pages/dashboard.page';
-import CreateArticlePage from './pages/articles/create.page';
-import EditArticlePage from './pages/articles/edit.page';
 import ListAllArticlesPage from './pages/articles/list.page';
-import { getItemInLocalStorage, TOKEN_KEY } from './utils/utils';
+import EditArticlePage from './pages/articles/edit.page';
+import ListHomeIntroPage from './pages/home-intro/list.page';
+import ListUsersPage from './pages/users/list.page';
+import ListContactsPage from './pages/contact/list.page';
 
 import './App.css';
 
@@ -18,8 +21,11 @@ function App() {
     const routes = [
         { path: '/dashboard', component: <DashboardPage /> },
         { path: '/articles', component: <ListAllArticlesPage /> },
-        { path: '/articles/create', component: <CreateArticlePage /> },
+        { path: '/articles/create', component: <EditArticlePage /> },
         { path: '/articles/edit/:id', component: <EditArticlePage /> },
+        { path: '/intro', component: <ListHomeIntroPage /> },
+        { path: '/contacts', component: <ListContactsPage /> },
+        { path: '/users', component: <ListUsersPage /> },
     ];
 
     return (

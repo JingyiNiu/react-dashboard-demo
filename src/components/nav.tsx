@@ -1,7 +1,9 @@
 import React from 'react';
-import { removeItemFromLocalStorage, TOKEN_KEY } from '../utils/utils';
-import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Modal } from 'antd';
+import type { MenuProps } from 'antd';
+import { Dropdown } from 'antd';
+import { ExclamationCircleFilled, LogoutOutlined, SettingOutlined } from '@ant-design/icons';
+import { removeItemFromLocalStorage, TOKEN_KEY } from '../utils/utils';
 
 const Nav = () => {
     const { confirm } = Modal;
@@ -23,12 +25,30 @@ const Nav = () => {
         });
     };
 
+    const items: MenuProps['items'] = [
+        {
+            label: "Place holder",
+            key: '1',
+        },
+        {
+            type: 'divider',
+        },
+        {
+            label: (
+                <button onClick={onLogout} className="text-primary-800">
+                    <LogoutOutlined /> Log out
+                </button>
+            ),
+            key: '3',
+        },
+    ];
+
     return (
         <div className="bg-neutral-50 py-4 px-8">
             <div className="flex justify-end">
-                <button onClick={onLogout} className="text-primary-900 hover:underline hover:underline-offset-2">
-                    Logout
-                </button>
+                <Dropdown menu={{ items }} trigger={['click']}>
+                    <SettingOutlined />
+                </Dropdown>
             </div>
         </div>
     );

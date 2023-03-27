@@ -5,6 +5,8 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 
 import axiosClient from '../../axios.config';
 import AntdTable from '../../components/antd-table';
+import CustomButton from '../../components/custom/button';
+import H2Title from '../../components/custom/h2title';
 
 const ListAllArticlesPage = () => {
     const API_END_POINT = '/api/admin/article';
@@ -19,7 +21,7 @@ const ListAllArticlesPage = () => {
                 setData(res.data.data);
             })
             .catch((err) => {
-                console.log(err)
+                console.log(err);
             });
     }, []);
 
@@ -39,12 +41,9 @@ const ListAllArticlesPage = () => {
 
     return (
         <div>
-            <h2 className="text-xl font-bold mb-8">List All Articles</h2>
-            <Link
-                to="/articles/create"
-                className="p-2 inline-block mb-4 rounded-md bg-primary-500 text-white hover:bg-primary-800"
-            >
-                New Article
+            <H2Title>List All Articles</H2Title>
+            <Link to="/articles/create">
+                <CustomButton className='mb-4'>New Article</CustomButton>
             </Link>
             <AntdTable data={data} onDelete={handleDelete} />
         </div>

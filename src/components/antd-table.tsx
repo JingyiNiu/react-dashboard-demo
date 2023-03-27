@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Table } from 'antd';
 import { formatDate } from '../utils/utils';
 import { Link } from 'react-router-dom';
+import { DeleteOutlined, FormOutlined } from '@ant-design/icons';
 
 const AntdTable = ({ data, onDelete }: any) => {
     const [tableData, setTableData] = useState([]);
@@ -35,20 +36,19 @@ const AntdTable = ({ data, onDelete }: any) => {
                 title: 'action',
                 dataIndex: 'action',
                 render: (_: any, item: any) => (
-                    <div>
-                        <Link
-                            to={`/articles/edit/${item.key}`}
-                            className="px-2 rounded-sm bg-primary-500 text-white hover:text-white hover:bg-primary-800 mr-2"
-                        >
-                            Edit
+                    <>
+                        <Link to={`/articles/edit/${item.key}`}>
+                            <button className="w-6 h-6 rounded-sm bg-primary-500 text-white hover:text-white hover:bg-primary-800 mr-2">
+                                <FormOutlined />
+                            </button>
                         </Link>
                         <button
                             onClick={() => onDelete(item.key)}
-                            className="px-2 rounded-sm bg-red-500 text-white hover:bg-red-600"
+                            className="w-6 h-6 rounded-sm bg-red-500 text-white hover:bg-red-600"
                         >
-                            Delete
+                            <DeleteOutlined />
                         </button>
-                    </div>
+                    </>
                 ),
             });
 

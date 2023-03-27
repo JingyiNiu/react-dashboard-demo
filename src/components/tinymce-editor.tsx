@@ -14,7 +14,7 @@ const TinyMceEditor = ({ editorData, onChange }: any) => {
                 initialValue={editorData}
                 onEditorChange={() => onChange(editorRef.current.getContent())}
                 init={{
-                    height: 500,
+                    height: 800,
                     menubar: 'insert',
                     plugins:
                         'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
