@@ -15,7 +15,7 @@ import ListContactsPage from './pages/contact/list.page';
 
 import './App.css';
 
-function App() {    
+function App() {
     const isToken = getItemInLocalStorage(TOKEN_KEY);
 
     const routes = [

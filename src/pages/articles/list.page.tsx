@@ -7,10 +7,14 @@ import axiosClient from '../../axios.config';
 import AntdTable from '../../components/antd-table';
 import CustomButton from '../../components/custom/button';
 import H2Title from '../../components/custom/h2title';
-import { validateAdmin } from '../../hooks/useAuth';
+import { checkToken, validateAdmin } from '../../hooks/useAuth';
 import { capitalizeText, formatDate, showTextLength } from '../../utils/utils';
 
 const ListAllArticlesPage = () => {
+    useEffect(()=>{
+        checkToken()
+    },[])
+    
     const API_END_POINT = '/api/admin/article';
     const { confirm } = Modal;
 

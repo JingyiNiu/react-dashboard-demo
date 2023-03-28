@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { validateAdmin } from '../hooks/useAuth';
+import { checkToken } from '../hooks/useAuth';
 
 const DashboardPage = () => {
     useEffect(()=>{
-        validateAdmin()
+        checkToken()
     },[])
     
     return (

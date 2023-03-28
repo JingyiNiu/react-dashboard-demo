@@ -6,8 +6,13 @@ import H2Title from '../../components/custom/h2title';
 import TinyMceEditor from '../../components/tinymce-editor';
 import axiosClient from '../../axios.config';
 import { ArticleInterface } from '../../interfaces/ArticleInterface';
+import { checkToken } from '../../hooks/useAuth';
 
 const EditArticlePage = () => {
+    useEffect(()=>{
+        checkToken()
+    },[])
+
     const navigate = useNavigate();
     const { id } = useParams();
 
