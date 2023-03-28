@@ -103,7 +103,7 @@ const EditArticlePage = () => {
                     <Input placeholder="slug" size="large" value={slug} />
                 </Form.Item>
 
-                <Form.Item name="is_public" label="Slug" rules={[{ required: true }]} className="mb-8">
+                <Form.Item name="is_public" label="Is public" rules={[{ required: true }]} className="mb-8">
                     <Select
                         options={[
                             { value: 0, label: 'No' },
