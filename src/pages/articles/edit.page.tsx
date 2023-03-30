@@ -42,7 +42,6 @@ const EditArticlePage = () => {
         axiosClient
             .post(API_END_POINT, data)
             .then((res) => {
-                console.log(res);
                 navigate('/articles');
             })
             .catch((err) => {
@@ -55,7 +54,6 @@ const EditArticlePage = () => {
         axiosClient
             .put(API_END_POINT, data)
             .then((res) => {
-                console.log(res);
                 navigate('/articles');
             })
             .catch((err) => {
@@ -64,7 +62,6 @@ const EditArticlePage = () => {
     };
 
     const onSubmit = (values: any) => {
-        console.log(values);
         id ? updateArticle(values) : createArticle(values);
     };
 

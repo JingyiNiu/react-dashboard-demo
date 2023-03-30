@@ -22,7 +22,7 @@ const CustomLink = ({ path, icon, children }: CustomLinkInterface) => {
 
 const Sidebar = () => {
     return (
-        <div className="bg-neutral-100 p-4">
+        <div className="bg-neutral-100 p-4 min-w-56">
             <div className="mt-4 mb-16">
                 <Link to="/dashboard" className="flex justify-center">
                     <LogoSvg />

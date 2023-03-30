@@ -1,23 +1,24 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Modal } from 'antd';
+import { Modal, Select } from 'antd';
 import { DeleteOutlined, ExclamationCircleFilled, FormOutlined } from '@ant-design/icons';
 
 import axiosClient from '../../axios.config';
 import AntdTable from '../../components/antd-table';
 import CustomButton from '../../components/custom/button';
 import H2Title from '../../components/custom/h2title';
-import { checkToken, validateAdmin } from '../../hooks/useAuth';
+import { checkToken } from '../../hooks/useAuth';
 import { capitalizeText, formatDate, showTextLength } from '../../utils/utils';
 
 const ListAllArticlesPage = () => {
-    useEffect(()=>{
-        checkToken()
-    },[])
-    
+    useEffect(() => {
+        checkToken();
+    }, []);
+
     const API_END_POINT = '/api/admin/article';
     const { confirm } = Modal;
 
+    const [data, setData] = useState([]);
     const [tableData, setTableData] = useState([]);
     const [tableHeader, setTableHeader] = useState<any>([]);
 
@@ -95,6 +96,7 @@ const ListAllArticlesPage = () => {
         },
         [handleDelete]
     );
+
     const generateTableHeader = useCallback(
         (data: any) => {
             const headerColumns: any = Object.keys(data[0]).map((key) => {
@@ -109,12 +111,28 @@ const ListAllArticlesPage = () => {
         },
         [addActionColumn]
     );
-    useEffect(() => {
-        validateAdmin();
 
+    const handleFilterData = (value: number) => {
+        switch (value) {
+            case 0:
+                formatDataForTable(data)
+                break;
+            case 1:
+                formatDataForTable(data.filter((item:any)=>item.is_public === 1))
+                break;
+            case 2:
+                formatDataForTable(data.filter((item:any)=>item.is_public === 0))
+                break;
+            default:
+                break;
+        }
+    };
+
+    useEffect(() => {
         axiosClient
             .get(API_END_POINT)
             .then((res) => {
+                setData(res.data.data);
                 formatDataForTable(res.data.data);
                 generateTableHeader(res.data.data);
             })
@@ -129,6 +147,17 @@ const ListAllArticlesPage = () => {
             <Link to="/articles/create">
                 <CustomButton className="mb-4">New Article</CustomButton>
             </Link>
+            <Select
+                className="block mb-2"
+                placeholder="Filter Table"
+                style={{ width: 120 }}
+                onChange={handleFilterData}
+                options={[
+                    { value: 1, label: 'Public' },
+                    { value: 2, label: 'Non-public' },
+                    { value: 0, label: 'All' },
+                ]}
+            />
             <AntdTable tableData={tableData} tableHeader={tableHeader} pageSize={15} />
         </div>
     );
