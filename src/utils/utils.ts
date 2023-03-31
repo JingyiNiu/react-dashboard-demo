@@ -21,6 +21,8 @@ export const formatDate = (date: any) => {
 
 export const TOKEN_KEY = process.env.REACT_APP_LOCAL_TOKEN || 'token';
 
+export const IMAGE_PREFIX = process.env.REACT_APP_RESOURCE_URL_PREFIX || '';
+
 export const showTextLength = (text: string = '', length: number = 0) => {
     const result = text.length < length ? text : text.slice(0, length) + '...';
     return result;
