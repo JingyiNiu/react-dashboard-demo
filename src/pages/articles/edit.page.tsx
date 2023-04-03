@@ -114,6 +114,10 @@ const EditArticlePage = () => {
                     />
                 </Form.Item>
 
+                <Form.Item name="sort_order" label="Sort order" rules={[{ required: true }]} className="mb-8">
+                    <Input placeholder="Sort order" size="large"/>
+                </Form.Item>
+
                 <Form.Item name="content" label="Content" rules={[{ required: true }]} className="mb-8">
                     <TinyMceEditor editorData={currentArticle && currentArticle.content} />
                 </Form.Item>

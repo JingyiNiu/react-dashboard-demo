@@ -1,3 +1,5 @@
+import moment from "moment-timezone";
+
 export const setItemInLocalStorage = (key: string, value: string) => {
     localStorage.setItem(key, value);
 };
@@ -31,4 +33,11 @@ export const showTextLength = (text: string = '', length: number = 0) => {
 export const capitalizeText = (text: string) => {
     const result = text.charAt(0).toUpperCase() + text.slice(1);
     return result;
+};
+
+export const formatDateToLocale = (date: string) => {
+    const timezone = moment.tz.guess();
+    const utcDate = new Date(date);
+    const localDate = moment.utc(utcDate).tz(timezone).format('YYYY-MM-D H:mm z');
+    return localDate;
 };

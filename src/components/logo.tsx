@@ -1,12 +1,10 @@
-const LogoSvg = () => {
+const LogoSvg = ({ className }: { className?: string }) => {
     return (
         <svg
-            width="40"
-            height="40"
             viewBox="0 0 1000 1000"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="cursor-pointer"
+            className={`cursor-pointer ${className}`}
         >
             <g clipPath="url(#clip0_1_2)">
                 <circle cx="500" cy="500" r="500" fill="#86D1D6" className="hover:fill-primary-800" />

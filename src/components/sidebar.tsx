@@ -1,49 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CommentOutlined, FileTextOutlined, HomeOutlined, TeamOutlined } from '@ant-design/icons';
+import {
+    CommentOutlined,
+    FileTextOutlined,
+    HomeOutlined,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    TeamOutlined,
+} from '@ant-design/icons';
 import LogoSvg from './logo';
-
-interface CustomLinkInterface {
-    path: string;
-    icon?: React.ReactNode;
-    children: React.ReactNode;
-}
-
-const CustomLink = ({ path, icon, children }: CustomLinkInterface) => {
-    return (
-        <li className="mb-8 hover:underline">
-            <Link to={path}>
-                <span className="mr-2">{icon}</span>
-                {children}
-            </Link>
-        </li>
-    );
-};
+import SidebarLink from './custom/sidebar-link';
+import { SidebarContext } from '../contexts/sidebar-context';
 
 const Sidebar = () => {
-    return (
-        <div className="bg-neutral-100 p-4 min-w-56">
-            <div className="mt-4 mb-16">
-                <Link to="/dashboard" className="flex justify-center">
-                    <LogoSvg />
-                </Link>
-            </div>
+    const [toggleSidebar, setToggleSidebar] = useState(false);
 
-            <ul className='mr-4'>
-                <CustomLink path="/intro" icon={<HomeOutlined />}>
-                    Homepage Intro
-                </CustomLink>
-                <CustomLink path="/articles" icon={<FileTextOutlined />}>
-                    Articles
-                </CustomLink>
-                <CustomLink path="/users" icon={<TeamOutlined />}>
-                    Users
-                </CustomLink>
-                <CustomLink path="/contacts" icon={<CommentOutlined />}>
-                    Contacts
-                </CustomLink>
-            </ul>
-        </div>
+    return (
+        <SidebarContext.Provider value={toggleSidebar}>
+            <div
+                className={`relative bg-neutral-100 transition-all duration-300 ease-in ${
+                    toggleSidebar ? 'w-20 min-w-20' : 'w-56 min-w-56'
+                }`}
+            >
+                {/* Toggle button */}
+                <button
+                    className="absolute bg-neutral-100 w-12 h-12 right-0 translate-x-12"
+                    onClick={() => setToggleSidebar(!toggleSidebar)}
+                >
+                    {toggleSidebar ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                </button>
+
+                {/* Logo */}
+                <div className="my-12">
+                    <Link to="/dashboard" className="flex justify-center">
+                        <LogoSvg className={`${toggleSidebar ? 'w-8' : 'w-12'}`} />
+                    </Link>
+                </div>
+
+                {/* Nav list */}
+                <ul className={` p-4 ${toggleSidebar ? '' : 'mr-4'}`}>
+                    <SidebarLink path="/intro" icon={<HomeOutlined />} text="Homepage Intro" />
+                    <SidebarLink path="/articles" icon={<FileTextOutlined />} text="Articles" />
+                    <SidebarLink path="/users" icon={<TeamOutlined />} text="Users" />
+                    <SidebarLink path="/contacts" icon={<CommentOutlined />} text="Contacts" />
+                </ul>
+            </div>
+        </SidebarContext.Provider>
     );
 };
 

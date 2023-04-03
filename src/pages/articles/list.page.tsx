@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Modal, Select } from 'antd';
-import { DeleteOutlined, ExclamationCircleFilled, FormOutlined } from '@ant-design/icons';
+import { Input, Select } from 'antd';
+import { FormOutlined } from '@ant-design/icons';
 
 import axiosClient from '../../axios.config';
 import AntdTable from '../../components/antd-table';
@@ -9,6 +9,7 @@ import CustomButton from '../../components/custom/button';
 import H2Title from '../../components/custom/h2title';
 import { checkToken } from '../../hooks/useAuth';
 import { capitalizeText, formatDate, showTextLength } from '../../utils/utils';
+import CustomLink from '../../components/custom/link';
 
 const ListAllArticlesPage = () => {
     useEffect(() => {
@@ -16,28 +17,14 @@ const ListAllArticlesPage = () => {
     }, []);
 
     const API_END_POINT = '/api/admin/article';
-    const { confirm } = Modal;
 
     const [data, setData] = useState([]);
+
     const [tableData, setTableData] = useState([]);
     const [tableHeader, setTableHeader] = useState<any>([]);
 
-    const handleDelete = useCallback(
-        (item: any) => {
-            confirm({
-                title: `Are you sure to delete - ${item.title}?`,
-                icon: <ExclamationCircleFilled />,
-                okText: 'Yes',
-                onOk() {
-                    console.log('delete', item.id);
-                },
-                onCancel() {
-                    return;
-                },
-            });
-        },
-        [confirm]
-    );
+    const [filterIndex, setFilterIndex] = useState(NaN);
+    const [searchText, setSearchText] = useState('0');
 
     const formatDataForTable = (data: any) => {
         const tableData = data.map((item: any) => ({
@@ -71,30 +58,38 @@ const ListAllArticlesPage = () => {
 
     const addActionColumn = useCallback(
         (data: any) => {
-            const actionColumn = {
-                key: 'action',
-                title: 'Action',
-                dataIndex: 'action',
-                render: (_: any, item: any) => (
-                    <>
-                        <Link to={`/articles/edit/${item.key}`}>
-                            <button className="w-6 h-6 rounded-sm bg-primary-500 text-white hover:text-white hover:bg-primary-800 mr-2">
-                                <FormOutlined />
-                            </button>
-                        </Link>
-                        <button
-                            onClick={() => handleDelete(item)}
-                            className="w-6 h-6 rounded-sm bg-red-500 text-white hover:bg-red-600"
-                        >
-                            <DeleteOutlined />
-                        </button>
-                    </>
-                ),
-            };
-            setTableHeader([...data, actionColumn]);
-            formatHeaderForTable([...data, actionColumn]);
+            const actionColumn = [
+                {
+                    key: 'preview',
+                    title: 'Preview',
+                    dataIndex: 'preview',
+                    render: (_: any, item: any) => (
+                        <>
+                            <CustomLink to={`/articles/preview/${item.key}`} target="_blank">
+                                View
+                            </CustomLink>
+                        </>
+                    ),
+                },
+                {
+                    key: 'action',
+                    title: 'Action',
+                    dataIndex: 'action',
+                    render: (_: any, item: any) => (
+                        <>
+                            <Link to={`/articles/edit/${item.key}`}>
+                                <button className="w-6 h-6 rounded-sm bg-primary-800 text-white hover:text-white hover:bg-primary-900 mr-2">
+                                    <FormOutlined />
+                                </button>
+                            </Link>
+                        </>
+                    ),
+                },
+            ];
+            setTableHeader([...data, ...actionColumn]);
+            formatHeaderForTable([...data, ...actionColumn]);
         },
-        [handleDelete]
+        []
     );
 
     const generateTableHeader = useCallback(
@@ -112,20 +107,30 @@ const ListAllArticlesPage = () => {
         [addActionColumn]
     );
 
-    const handleFilterData = (value: number) => {
-        switch (value) {
-            case 0:
-                formatDataForTable(data)
-                break;
-            case 1:
-                formatDataForTable(data.filter((item:any)=>item.is_public === 1))
-                break;
-            case 2:
-                formatDataForTable(data.filter((item:any)=>item.is_public === 0))
-                break;
-            default:
-                break;
-        }
+    const handleFilterAndSearch = (value: number, searchText: string) => {
+        const filteredData = data.filter((item: any) => {
+            if (value === 1 && !item.is_public) {
+                return false;
+            }
+            if (value === 2 && item.is_public) {
+                return false;
+            }
+            if (searchText && item.title.indexOf(searchText) === -1) {
+                return false;
+            }
+            return true;
+        });
+        formatDataForTable(filteredData);
+    };
+
+    const handleFilter = (value: number) => {
+        setFilterIndex(value);
+        handleFilterAndSearch(value, searchText);
+    };
+
+    const handleSearch = (searchText: string) => {
+        setSearchText(searchText);
+        handleFilterAndSearch(filterIndex, searchText);
     };
 
     useEffect(() => {
@@ -147,17 +152,21 @@ const ListAllArticlesPage = () => {
             <Link to="/articles/create">
                 <CustomButton className="mb-4">New Article</CustomButton>
             </Link>
-            <Select
-                className="block mb-2"
-                placeholder="Filter Table"
-                style={{ width: 120 }}
-                onChange={handleFilterData}
-                options={[
-                    { value: 1, label: 'Public' },
-                    { value: 2, label: 'Non-public' },
-                    { value: 0, label: 'All' },
-                ]}
-            />
+            <div className="flex">
+                <Select
+                    className="block mb-2 mr-2"
+                    placeholder="Filter Table"
+                    style={{ width: 120 }}
+                    onChange={handleFilter}
+                    defaultValue={0}
+                    options={[
+                        { value: 0, label: 'All' },
+                        { value: 1, label: 'Public' },
+                        { value: 2, label: 'Non-public' },
+                    ]}
+                />
+                <Input.Search placeholder={`Search title`} allowClear onSearch={handleSearch} className="w-60" />
+            </div>
             <AntdTable tableData={tableData} tableHeader={tableHeader} pageSize={15} />
         </div>
     );

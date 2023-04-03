@@ -25,14 +25,7 @@ const Nav = () => {
         });
     };
 
-    const items: MenuProps['items'] = [
-        {
-            label: "Place holder",
-            key: '1',
-        },
-        {
-            type: 'divider',
-        },
+    const settingDropdowns: MenuProps['items'] = [
         {
             label: (
                 <button onClick={onLogout} className="text-primary-800">
@@ -44,9 +37,9 @@ const Nav = () => {
     ];
 
     return (
-        <div className="bg-neutral-50 py-4 px-8">
+        <div className="py-4 px-8">
             <div className="flex justify-end">
-                <Dropdown menu={{ items }} trigger={['click']}>
+                <Dropdown menu={{ items:settingDropdowns }} trigger={['click']}>
                     <SettingOutlined />
                 </Dropdown>
             </div>

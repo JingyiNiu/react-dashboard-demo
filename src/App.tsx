@@ -9,6 +9,7 @@ import LoginPage from './pages/login.page';
 import DashboardPage from './pages/dashboard.page';
 import ListAllArticlesPage from './pages/articles/list.page';
 import EditArticlePage from './pages/articles/edit.page';
+import PreviewArticlePage from './pages/articles/preview.page';
 import ListHomeIntroPage from './pages/home-intro/list.page';
 import ListUsersPage from './pages/users/list.page';
 import ListContactsPage from './pages/contact/list.page';
@@ -23,6 +24,7 @@ function App() {
         { path: '/articles', component: <ListAllArticlesPage /> },
         { path: '/articles/create', component: <EditArticlePage /> },
         { path: '/articles/edit/:id', component: <EditArticlePage /> },
+        { path: '/articles/preview/:id', component: <PreviewArticlePage /> },
         { path: '/intro', component: <ListHomeIntroPage /> },
         { path: '/contacts', component: <ListContactsPage /> },
         { path: '/users', component: <ListUsersPage /> },

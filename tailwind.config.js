@@ -5,6 +5,7 @@ module.exports = {
         minWidth: {
             '8': '2rem',
             '16': '4rem',
+            '20': '5rem',
             '32': '8rem',
             '56': '14rem',
             '64': '16rem',
@@ -17,6 +18,9 @@ module.exports = {
                 light: '#f5f5f5',
                 white: '#ffffff',
             },
+            transitionProperty: {
+                'width': 'width',
+              }
         },
     },
     plugins: [],
