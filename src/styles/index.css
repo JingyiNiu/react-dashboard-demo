@@ -21,6 +21,7 @@ code {
     --primary-800: #367c83;
     --primary-900: #038894;
 }
+
 .ant-btn-primary {
     background-color: var(--primary-500);
 }
@@ -32,4 +33,17 @@ code {
 .ant-btn-default.ant-btn-default:hover {
     color: var(--primary-500);
     border-color: var(--primary-500);
+}
+
+.inline-link {
+    color: var(--primary-500);
+    padding: 0 2px;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 4px;
+}
+
+.inline-link:hover {
+    text-decoration-style: solid;
+    text-decoration-thickness: 2px;
 }

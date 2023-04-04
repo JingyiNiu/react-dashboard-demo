@@ -14,7 +14,7 @@ import ListHomeIntroPage from './pages/home-intro/list.page';
 import ListUsersPage from './pages/users/list.page';
 import ListContactsPage from './pages/contact/list.page';
 
-import './App.css';
+import './styles/app.css';
 
 function App() {
     const isToken = getItemInLocalStorage(TOKEN_KEY);

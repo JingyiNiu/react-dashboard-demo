@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import parse from 'html-react-parser';
 import { checkToken } from '../../hooks/useAuth';
 import axiosClient from '../../axios.config';
-import { ArticleInterface } from '../../interfaces/ArticleInterface';
+import { ArticleInterface, initialArticleData } from '../../interfaces/ArticleInterface';
 import { formatDateToLocale } from '../../utils/utils';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism-okaidia.css';
@@ -15,12 +15,6 @@ const PreviewArticlePage = () => {
 
     const { id } = useParams();
 
-    const initialArticleData: ArticleInterface = {
-        title: '',
-        slug: '',
-        content: '',
-        is_public: 0,
-    };
 
     const [article, setArticle] = useState<ArticleInterface>(initialArticleData);
 

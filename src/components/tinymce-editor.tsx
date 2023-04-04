@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import axiosClient from '../axios.config';
 import { IMAGE_PREFIX } from '../utils/utils';
+import { color_preset } from '../utils/tinymce';
 
 const TinyMceEditor = ({ editorData, onChange }: any) => {
     const tinemceApiKey = process.env.REACT_APP_TINYMCE_API_KEY;
@@ -35,18 +36,19 @@ const TinyMceEditor = ({ editorData, onChange }: any) => {
                     height: 800,
                     plugins: [
                         'link image media table code codesample emoticons ',
-                        'charmap checklist lists advlist wordcount ',
+                        'charmap checklist lists advlist wordcount textcolor spellchecker help ',
                     ],
                     toolbar:
                         'undo redo | bold italic underline strikethrough | ' +
                         'link image media table | codesample emoticons charmap code | ' +
-                        'removeformat | align lineheight | ' +
+                        'forecolor backcolor | removeformat | align lineheight | ' +
                         'checklist numlist bullist indent outdent | ' +
-                        'formatselect fontselect fontsizeselect | spellcheckdialog ',
+                        'formatselect fontselect fontsizeselect | spellchecker help',
                     image_advtab: true,
                     paste_data_images: true,
                     file_picker_types: 'file image media',
                     images_upload_handler: uploadImage,
+                    color_map: color_preset,
                 }}
             />
         </>

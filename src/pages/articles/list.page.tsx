@@ -8,7 +8,7 @@ import AntdTable from '../../components/antd-table';
 import CustomButton from '../../components/custom/button';
 import H2Title from '../../components/custom/h2title';
 import { checkToken } from '../../hooks/useAuth';
-import { capitalizeText, formatDate, showTextLength } from '../../utils/utils';
+import { capitalizeText } from '../../utils/utils';
 import CustomLink from '../../components/custom/link';
 
 const ListAllArticlesPage = () => {
@@ -30,67 +30,50 @@ const ListAllArticlesPage = () => {
         const tableData = data.map((item: any) => ({
             ...item,
             key: item.id,
-            created_at: item.created_at ? formatDate(item.created_at) : '',
-            updated_at: item.updated_at ? formatDate(item.updated_at) : '',
+            is_public: item.is_public ? <span className="text-green-500">Yes</span> : <span>No</span>,
         }));
-
         setTableData(tableData);
     };
 
     const formatHeaderForTable = (data: any) => {
-        const updatedColumns = data.map((item: any) => {
-            if (item.key === 'is_public') {
-                return {
-                    ...item,
-                    render: (text: any) => (text ? <span className="text-green-500">Yes</span> : <span>No</span>),
-                };
-            }
-            if (item.key === 'content') {
-                return {
-                    ...item,
-                    render: (text: any) => showTextLength(text, 30),
-                };
-            }
-            return item;
-        });
+        const updatedColumns = data.filter(
+            ({ key }: { key: string }) => !['content', 'created_at', 'updated_at'].includes(key)
+        );
         setTableHeader(updatedColumns);
     };
 
-    const addActionColumn = useCallback(
-        (data: any) => {
-            const actionColumn = [
-                {
-                    key: 'preview',
-                    title: 'Preview',
-                    dataIndex: 'preview',
-                    render: (_: any, item: any) => (
-                        <>
-                            <CustomLink to={`/articles/preview/${item.key}`} target="_blank">
-                                View
-                            </CustomLink>
-                        </>
-                    ),
-                },
-                {
-                    key: 'action',
-                    title: 'Action',
-                    dataIndex: 'action',
-                    render: (_: any, item: any) => (
-                        <>
-                            <Link to={`/articles/edit/${item.key}`}>
-                                <button className="w-6 h-6 rounded-sm bg-primary-800 text-white hover:text-white hover:bg-primary-900 mr-2">
-                                    <FormOutlined />
-                                </button>
-                            </Link>
-                        </>
-                    ),
-                },
-            ];
-            setTableHeader([...data, ...actionColumn]);
-            formatHeaderForTable([...data, ...actionColumn]);
-        },
-        []
-    );
+    const addActionColumn = useCallback((data: any) => {
+        const actionColumn = [
+            {
+                key: 'preview',
+                title: 'Preview',
+                dataIndex: 'preview',
+                render: (_: any, item: any) => (
+                    <>
+                        <CustomLink to={`/articles/preview/${item.key}`} target="_blank">
+                            View
+                        </CustomLink>
+                    </>
+                ),
+            },
+            {
+                key: 'action',
+                title: 'Action',
+                dataIndex: 'action',
+                render: (_: any, item: any) => (
+                    <>
+                        <Link to={`/articles/edit/${item.key}`}>
+                            <button className="w-6 h-6 rounded-sm bg-primary-800 text-white hover:text-white hover:bg-primary-900 mr-2">
+                                <FormOutlined />
+                            </button>
+                        </Link>
+                    </>
+                ),
+            },
+        ];
+        setTableHeader([...data, ...actionColumn]);
+        formatHeaderForTable([...data, ...actionColumn]);
+    }, []);
 
     const generateTableHeader = useCallback(
         (data: any) => {
