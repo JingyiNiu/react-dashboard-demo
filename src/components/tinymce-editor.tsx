@@ -36,13 +36,13 @@ const TinyMceEditor = ({ editorData, onChange }: any) => {
                     height: 800,
                     plugins: [
                         'link image media table code codesample emoticons ',
-                        'charmap checklist lists advlist wordcount textcolor spellchecker help ',
+                        'charmap lists advlist wordcount textcolor spellchecker help ',
                     ],
                     toolbar:
                         'undo redo | bold italic underline strikethrough | ' +
                         'link image media table | codesample emoticons charmap code | ' +
                         'forecolor backcolor | removeformat | align lineheight | ' +
-                        'checklist numlist bullist indent outdent | ' +
+                        'numlist bullist indent outdent | ' +
                         'formatselect fontselect fontsizeselect | spellchecker help',
                     image_advtab: true,
                     paste_data_images: true,

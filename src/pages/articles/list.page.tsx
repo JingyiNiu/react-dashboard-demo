@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Input, Select } from 'antd';
+import { Input, Select, Tag } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
 import axiosClient from '../../axios.config';
@@ -26,7 +26,7 @@ const ListAllArticlesPage = () => {
     const [filterIndex, setFilterIndex] = useState(NaN);
     const [searchText, setSearchText] = useState('0');
 
-    const formatDataForTable = (data: any) => {
+    const formatData = (data: any) => {
         const tableData = data.map((item: any) => ({
             ...item,
             key: item.id,
@@ -35,15 +35,30 @@ const ListAllArticlesPage = () => {
         setTableData(tableData);
     };
 
-    const formatHeaderForTable = (data: any) => {
+    const filterTableColumns = (data: any) => {
         const updatedColumns = data.filter(
             ({ key }: { key: string }) => !['content', 'created_at', 'updated_at'].includes(key)
         );
         setTableHeader(updatedColumns);
     };
 
-    const addActionColumn = useCallback((data: any) => {
-        const actionColumn = [
+    const formatTableColumns = useCallback((data: any) => {
+        const formatedColumns = data.map((column: any) => {
+            if (column.key === 'tags') {
+                return {
+                    ...column,
+                    render: (tags: any) => (
+                        <span>
+                            {tags.map((tag: any) => {
+                                return <Tag key={tag.id}>{tag.name}</Tag>;
+                            })}
+                        </span>
+                    ),
+                };
+            }
+            return column;
+        });
+        const extraColumns = [
             {
                 key: 'preview',
                 title: 'Preview',
@@ -71,13 +86,12 @@ const ListAllArticlesPage = () => {
                 ),
             },
         ];
-        setTableHeader([...data, ...actionColumn]);
-        formatHeaderForTable([...data, ...actionColumn]);
+        filterTableColumns([...formatedColumns, ...extraColumns]);
     }, []);
 
-    const generateTableHeader = useCallback(
+    const generateTableColumns = useCallback(
         (data: any) => {
-            const headerColumns: any = Object.keys(data[0]).map((key) => {
+            const allColumns: any = Object.keys(data[0]).map((key) => {
                 return {
                     key,
                     title: capitalizeText(key.replace('_', ' ')),
@@ -85,12 +99,14 @@ const ListAllArticlesPage = () => {
                     sorter: (a: any, b: any) => a[key].toString().localeCompare(b[key].toString()),
                 };
             });
-            addActionColumn(headerColumns);
+
+            formatTableColumns(allColumns);
         },
-        [addActionColumn]
+        [formatTableColumns]
     );
 
     const handleFilterAndSearch = (value: number, searchText: string) => {
+        console.log("Public: ", value, "; Search text: ", searchText)
         const filteredData = data.filter((item: any) => {
             if (value === 1 && !item.is_public) {
                 return false;
@@ -103,7 +119,7 @@ const ListAllArticlesPage = () => {
             }
             return true;
         });
-        formatDataForTable(filteredData);
+        formatData(filteredData);
     };
 
     const handleFilter = (value: number) => {
@@ -120,14 +136,14 @@ const ListAllArticlesPage = () => {
         axiosClient
             .get(API_END_POINT)
             .then((res) => {
-                setData(res.data.data);
-                formatDataForTable(res.data.data);
-                generateTableHeader(res.data.data);
+                setData(res.data);
+                formatData(res.data);
+                generateTableColumns(res.data);
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, [generateTableHeader]);
+    }, [generateTableColumns]);
 
     return (
         <div>

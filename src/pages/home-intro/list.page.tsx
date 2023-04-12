@@ -7,7 +7,7 @@ import { HomeIntroInterface } from '../../interfaces/HomeIntroInterface';
 import HomeIntroDialog from '../../components/home-intro-dialog';
 
 const ListHomeIntroPage = () => {
-    const API_END_POINT = '/api/admin/home';
+    const API_END_POINT = '/api/admin/intro';
 
     const [homeData, setHomeData] = useState<HomeIntroInterface[]>([]);
 
@@ -19,7 +19,7 @@ const ListHomeIntroPage = () => {
         axiosClient
             .get(API_END_POINT)
             .then((res) => {
-                setHomeData(res.data.data);
+                setHomeData(res.data);
             })
             .catch((err) => {
                 console.log(err);

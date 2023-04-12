@@ -20,11 +20,12 @@ const EditArticlePage = () => {
     const [form] = Form.useForm();
     const [slug, setSlug] = useState('');
     const [article, setArticle] = useState<ArticleInterface>(initialArticleData);
-    const [tagOption, setTagOption] = useState<TagInterface[]>([]);
+    const [tagOptions, setTagOptions] = useState<any[]>([]);
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newTitle = e.target.value;
         const newSlug = newTitle
+            .trim()
             .toLowerCase()
             .replace(/[^\w\s]/gi, '')
             .replace(/\s+/g, '-');
@@ -71,8 +72,11 @@ const EditArticlePage = () => {
             axiosClient
                 .get(`${API_END_POINT}/${id}`)
                 .then((res) => {
-                    setArticle(res.data.data[0]);
-                    form.setFieldsValue(res.data.data[0]);
+                    setArticle(res.data[0]);
+                    form.setFieldsValue(res.data[0]);
+                    form.setFieldsValue({
+                        tags: res.data[0].tags.map((tag: any) => tag.id),
+                    });
                 })
                 .catch((err) => {
                     console.log(err);
@@ -88,7 +92,7 @@ const EditArticlePage = () => {
             axiosClient
                 .get(`${API_END_POINT}`)
                 .then((res) => {
-                    setTagOption(res.data.data.map((tag: TagInterface) => ({ value: tag.id, label: tag.name })));
+                    setTagOptions(res.data.map((tag: TagInterface) => ({ value: tag.id, label: tag.name })));
                 })
                 .catch((err) => {
                     console.log(err);
@@ -127,11 +131,11 @@ const EditArticlePage = () => {
                 </Form.Item>
 
                 <Form.Item name="sort_order" label="Sort order" rules={[{ required: true }]} className="mb-8">
-                    <Input placeholder="Sort order" size="large" type="number"/>
+                    <Input placeholder="Sort order" size="large" type="number" />
                 </Form.Item>
 
-                <Form.Item name="tags" label="Tag (Multiple selection)" rules={[{ required: true }]} className="mb-8">
-                    <Select mode="multiple" options={tagOption} />
+                <Form.Item name="tags" label="Tag (Multiple selection)" className="mb-8">
+                    <Select mode="multiple" options={tagOptions} value={[1]} />
                 </Form.Item>
 
                 <Form.Item name="content" label="Content" rules={[{ required: true }]} className="mb-8">
