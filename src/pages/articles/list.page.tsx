@@ -10,8 +10,9 @@ import H2Title from '../../components/custom/h2title';
 import { checkToken } from '../../hooks/useAuth';
 import { capitalizeText } from '../../utils/utils';
 import CustomLink from '../../components/custom/link';
+import { TableColumnInterface } from '../../interfaces/TableColumnInterface';
 
-const ListAllArticlesPage = () => {
+const ArticlesListPage = () => {
     useEffect(() => {
         checkToken();
     }, []);
@@ -21,7 +22,7 @@ const ListAllArticlesPage = () => {
     const [data, setData] = useState([]);
 
     const [tableData, setTableData] = useState([]);
-    const [tableHeader, setTableHeader] = useState<any>([]);
+    const [tableHeader, setTableHeader] = useState<TableColumnInterface[]>([]);
 
     const [filterIndex, setFilterIndex] = useState(NaN);
     const [searchText, setSearchText] = useState('0');
@@ -146,7 +147,7 @@ const ListAllArticlesPage = () => {
     }, [generateTableColumns]);
 
     return (
-        <div>
+        <>
             <H2Title>List All Articles</H2Title>
             <Link to="/articles/create">
                 <CustomButton className="mb-4">New Article</CustomButton>
@@ -167,8 +168,8 @@ const ListAllArticlesPage = () => {
                 <Input.Search placeholder={`Search title`} allowClear onSearch={handleSearch} className="w-60" />
             </div>
             <AntdTable tableData={tableData} tableHeader={tableHeader} pageSize={15} />
-        </div>
+        </>
     );
 };
 
-export default ListAllArticlesPage;
+export default ArticlesListPage;

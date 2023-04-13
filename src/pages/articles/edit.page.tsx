@@ -9,7 +9,7 @@ import { ArticleInterface, initialArticleData } from '../../interfaces/ArticleIn
 import { checkToken } from '../../hooks/useAuth';
 import { TagInterface } from '../../interfaces/TagInterface';
 
-const EditArticlePage = () => {
+const ArticleEditPage = () => {
     useEffect(() => {
         checkToken();
     }, []);
@@ -74,7 +74,7 @@ const EditArticlePage = () => {
                 .then((res) => {
                     setArticle(res.data[0]);
                     form.setFieldsValue(res.data[0]);
-                    form.setFieldsValue({
+                    res.data[0] && form.setFieldsValue({
                         tags: res.data[0].tags.map((tag: any) => tag.id),
                     });
                 })
@@ -92,7 +92,7 @@ const EditArticlePage = () => {
             axiosClient
                 .get(`${API_END_POINT}`)
                 .then((res) => {
-                    setTagOptions(res.data.map((tag: TagInterface) => ({ value: tag.id, label: tag.name })));
+                    res.data && setTagOptions(res.data.map((tag: TagInterface) => ({ value: tag.id, label: tag.name })));
                 })
                 .catch((err) => {
                     console.log(err);
@@ -150,4 +150,4 @@ const EditArticlePage = () => {
     );
 };
 
-export default EditArticlePage;
+export default ArticleEditPage;

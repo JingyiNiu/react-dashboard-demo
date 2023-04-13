@@ -8,7 +8,7 @@ import { formatDateToLocale } from '../../utils/utils';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism-okaidia.css';
 
-const PreviewArticlePage = () => {
+const ArticlePreviewPage = () => {
     useEffect(() => {
         checkToken();
     }, []);
@@ -24,7 +24,7 @@ const PreviewArticlePage = () => {
             axiosClient
                 .get(`${API_END_POINT}/${id}`)
                 .then((res) => {
-                    setArticle(res.data.data[0]);
+                    setArticle(res.data[0]);
                     Prism.highlightAll();
                 })
                 .catch((err) => {
@@ -46,4 +46,4 @@ const PreviewArticlePage = () => {
     );
 };
 
-export default PreviewArticlePage;
+export default ArticlePreviewPage;

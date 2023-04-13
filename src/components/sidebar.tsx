@@ -6,6 +6,7 @@ import {
     HomeOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
+    TagOutlined,
     TeamOutlined,
 } from '@ant-design/icons';
 import LogoSvg from './logo';
@@ -39,8 +40,9 @@ const Sidebar = () => {
 
                 {/* Nav list */}
                 <ul className={` p-4 ${toggleSidebar ? '' : 'mr-4'}`}>
-                    <SidebarLink path="/intro" icon={<HomeOutlined />} text="Homepage Intro" />
+                    <SidebarLink path="/intro" icon={<HomeOutlined />} text="Intros" />
                     <SidebarLink path="/articles" icon={<FileTextOutlined />} text="Articles" />
+                    <SidebarLink path="/tags" icon={<TagOutlined />} text="Tags" />
                     <SidebarLink path="/users" icon={<TeamOutlined />} text="Users" />
                     <SidebarLink path="/contacts" icon={<CommentOutlined />} text="Contacts" />
                 </ul>

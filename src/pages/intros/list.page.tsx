@@ -6,7 +6,7 @@ import { checkToken } from '../../hooks/useAuth';
 import { HomeIntroInterface } from '../../interfaces/HomeIntroInterface';
 import HomeIntroDialog from '../../components/home-intro-dialog';
 
-const ListHomeIntroPage = () => {
+const IntrosListPage = () => {
     const API_END_POINT = '/api/admin/intro';
 
     const [homeData, setHomeData] = useState<HomeIntroInterface[]>([]);
@@ -27,8 +27,7 @@ const ListHomeIntroPage = () => {
     }, []);
 
     return (
-        <div>
-            
+        <>
             <H2Title>
                 English Version
                 <HomeIntroDialog data={homeData[0]}/>
@@ -39,11 +38,11 @@ const ListHomeIntroPage = () => {
                 <HomeIntroDialog data={homeData[1]}/>
             </H2Title>
             <HomeIntroCard data={homeData[1]} />
-        </div>
+        </>
     );
 };
 
-export default ListHomeIntroPage;
+export default IntrosListPage;
 
 function HomeIntroCard({ data }: { data: HomeIntroInterface }) {
     return (

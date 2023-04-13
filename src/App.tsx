@@ -7,12 +7,13 @@ import Nav from './components/nav';
 
 import LoginPage from './pages/login.page';
 import DashboardPage from './pages/dashboard.page';
-import ListAllArticlesPage from './pages/articles/list.page';
-import EditArticlePage from './pages/articles/edit.page';
-import PreviewArticlePage from './pages/articles/preview.page';
-import ListHomeIntroPage from './pages/home-intro/list.page';
-import ListUsersPage from './pages/users/list.page';
-import ListContactsPage from './pages/contact/list.page';
+import IntrosListPage from './pages/intros/list.page';
+import ArticlesListPage from './pages/articles/list.page';
+import ArticleEditPage from './pages/articles/edit.page';
+import ArticlePreviewPage from './pages/articles/preview.page';
+import TagsListPage from './pages/tags/list.page';
+import UsersListPage from './pages/users/list.page';
+import ContactsListPage from './pages/contacts/list.page';
 
 import './styles/app.css';
 
@@ -21,13 +22,14 @@ function App() {
 
     const routes = [
         { path: '/dashboard', component: <DashboardPage /> },
-        { path: '/articles', component: <ListAllArticlesPage /> },
-        { path: '/articles/create', component: <EditArticlePage /> },
-        { path: '/articles/edit/:id', component: <EditArticlePage /> },
-        { path: '/articles/preview/:id', component: <PreviewArticlePage /> },
-        { path: '/intro', component: <ListHomeIntroPage /> },
-        { path: '/contacts', component: <ListContactsPage /> },
-        { path: '/users', component: <ListUsersPage /> },
+        { path: '/articles', component: <ArticlesListPage /> },
+        { path: '/articles/create', component: <ArticleEditPage /> },
+        { path: '/articles/edit/:id', component: <ArticleEditPage /> },
+        { path: '/articles/preview/:id', component: <ArticlePreviewPage /> },
+        { path: '/tags', component: <TagsListPage /> },
+        { path: '/intro', component: <IntrosListPage /> },
+        { path: '/users', component: <UsersListPage /> },
+        { path: '/contacts', component: <ContactsListPage /> },
     ];
 
     return (
