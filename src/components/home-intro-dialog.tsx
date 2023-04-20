@@ -39,12 +39,12 @@ const HomeIntroDialog = ({ data }: HomeIntroDialogProps) => {
                 setOpen(false);
             })
             .catch((err) => {
-                console.log(err)
+                console.warn(err)
             });
     };
 
     const onSubmitFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
+        console.warn('Failed:', errorInfo);
     };
 
     return (

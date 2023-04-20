@@ -41,7 +41,7 @@ const ArticleEditPage = () => {
                 navigate('/articles');
             })
             .catch((err) => {
-                console.log(err);
+                console.warn(err);
             });
     };
 
@@ -53,7 +53,7 @@ const ArticleEditPage = () => {
                 navigate('/articles');
             })
             .catch((err) => {
-                console.log(err);
+                console.warn(err);
             });
     };
 
@@ -62,7 +62,7 @@ const ArticleEditPage = () => {
     };
 
     const onSubmitFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
+        console.warn('Failed:', errorInfo);
     };
 
     useEffect(() => {
@@ -79,7 +79,7 @@ const ArticleEditPage = () => {
                     });
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.warn(err);
                 });
         };
 
@@ -95,7 +95,7 @@ const ArticleEditPage = () => {
                     res.data && setTagOptions(res.data.map((tag: TagInterface) => ({ value: tag.id, label: tag.name })));
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.warn(err);
                 });
         };
 
@@ -121,6 +121,10 @@ const ArticleEditPage = () => {
                     <Input placeholder="slug" size="large" value={slug} />
                 </Form.Item>
 
+                <Form.Item name="title_zh" label="标题" rules={[{ required: true }]} className="mb-8">
+                    <Input placeholder="中文标题" size="large"/>
+                </Form.Item>
+
                 <Form.Item name="is_public" label="Is public" rules={[{ required: true }]} className="mb-8">
                     <Select
                         options={[
@@ -140,6 +144,10 @@ const ArticleEditPage = () => {
 
                 <Form.Item name="content" label="Content" rules={[{ required: true }]} className="mb-8">
                     <TinyMceEditor editorData={article && article.content} />
+                </Form.Item>
+
+                <Form.Item name="content_zh" label="内容" rules={[{ required: true }]} className="mb-8">
+                    <TinyMceEditor editorData={article && article.content_zh} />
                 </Form.Item>
 
                 <Button type="primary" size="large" block className="bg-primary-800 font-medium" htmlType="submit">

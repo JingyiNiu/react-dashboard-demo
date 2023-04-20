@@ -38,7 +38,7 @@ const ArticlesListPage = () => {
 
     const filterTableColumns = (data: any) => {
         const updatedColumns = data.filter(
-            ({ key }: { key: string }) => !['content', 'created_at', 'updated_at'].includes(key)
+            ({ key }: { key: string }) => !['title_zh', 'content', 'content_zh', 'created_at', 'updated_at'].includes(key)
         );
         setTableHeader(updatedColumns);
     };
@@ -107,7 +107,6 @@ const ArticlesListPage = () => {
     );
 
     const handleFilterAndSearch = (value: number, searchText: string) => {
-        console.log("Public: ", value, "; Search text: ", searchText)
         const filteredData = data.filter((item: any) => {
             if (value === 1 && !item.is_public) {
                 return false;
@@ -142,7 +141,7 @@ const ArticlesListPage = () => {
                 generateTableColumns(res.data);
             })
             .catch((err) => {
-                console.log(err);
+                console.warn(err);
             });
     }, [generateTableColumns]);
 

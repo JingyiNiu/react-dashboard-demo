@@ -28,7 +28,7 @@ const ArticlePreviewPage = () => {
                     Prism.highlightAll();
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.warn(err);
                 });
         };
 

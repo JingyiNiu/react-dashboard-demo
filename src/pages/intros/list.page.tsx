@@ -22,7 +22,7 @@ const IntrosListPage = () => {
                 setHomeData(res.data);
             })
             .catch((err) => {
-                console.log(err);
+                console.warn(err);
             });
     }, []);
 

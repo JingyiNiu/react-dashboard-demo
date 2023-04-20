@@ -25,7 +25,7 @@ const LoginPage = () => {
     };
 
     const onSubmitFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
+        console.warn('Failed:', errorInfo);
     };
 
     return (
