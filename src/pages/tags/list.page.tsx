@@ -17,8 +17,6 @@ const TagsListPage = () => {
 
     const { confirm } = Modal;
 
-    const API_END_POINT = '/api/admin/tag';
-
     const [tableData, setTableData] = useState<TagInterface[]>([]);
     const [tableHeader, setTableHeader] = useState<TableColumnInterface[]>([]);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -96,6 +94,8 @@ const TagsListPage = () => {
     );
 
     const getApiData = useCallback(() => {
+        const API_END_POINT = '/api/admin/tag';
+
         axiosClient
             .get(API_END_POINT)
             .then((res) => {

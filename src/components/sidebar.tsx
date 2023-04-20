@@ -14,7 +14,7 @@ import SidebarLink from './custom/sidebar-link';
 import { SidebarContext } from '../contexts/sidebar-context';
 
 const Sidebar = () => {
-    const [toggleSidebar, setToggleSidebar] = useState(false);
+    const [toggleSidebar, setToggleSidebar] = useState(true);
 
     return (
         <SidebarContext.Provider value={toggleSidebar}>

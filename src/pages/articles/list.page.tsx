@@ -27,7 +27,7 @@ const ArticlesListPage = () => {
     const [filterIndex, setFilterIndex] = useState(NaN);
     const [searchText, setSearchText] = useState('0');
 
-    const formatData = (data: any) => {
+    const generateData = (data: any) => {
         const tableData = data.map((item: any) => ({
             ...item,
             key: item.id,
@@ -36,14 +36,12 @@ const ArticlesListPage = () => {
         setTableData(tableData);
     };
 
-    const filterTableColumns = (data: any) => {
-        const updatedColumns = data.filter(
-            ({ key }: { key: string }) => !['title_zh', 'content', 'content_zh', 'created_at', 'updated_at'].includes(key)
-        );
+    const filterColumns = (data: any) => {
+        const updatedColumns = data.filter(({ key }: { key: string }) => !['title_zh', 'content', 'content_zh', 'created_at', 'updated_at'].includes(key));
         setTableHeader(updatedColumns);
     };
 
-    const formatTableColumns = useCallback((data: any) => {
+    const formatColumns = useCallback((data: any) => {
         const formatedColumns = data.map((column: any) => {
             if (column.key === 'tags') {
                 return {
@@ -87,10 +85,10 @@ const ArticlesListPage = () => {
                 ),
             },
         ];
-        filterTableColumns([...formatedColumns, ...extraColumns]);
+        filterColumns([...formatedColumns, ...extraColumns]);
     }, []);
 
-    const generateTableColumns = useCallback(
+    const generateColumns = useCallback(
         (data: any) => {
             const allColumns: any = Object.keys(data[0]).map((key) => {
                 return {
@@ -101,9 +99,9 @@ const ArticlesListPage = () => {
                 };
             });
 
-            formatTableColumns(allColumns);
+            formatColumns(allColumns);
         },
-        [formatTableColumns]
+        [formatColumns]
     );
 
     const handleFilterAndSearch = (value: number, searchText: string) => {
@@ -119,7 +117,7 @@ const ArticlesListPage = () => {
             }
             return true;
         });
-        formatData(filteredData);
+        generateData(filteredData);
     };
 
     const handleFilter = (value: number) => {
@@ -137,13 +135,13 @@ const ArticlesListPage = () => {
             .get(API_END_POINT)
             .then((res) => {
                 setData(res.data);
-                formatData(res.data);
-                generateTableColumns(res.data);
+                generateData(res.data);
+                generateColumns(res.data);
             })
             .catch((err) => {
                 console.warn(err);
             });
-    }, [generateTableColumns]);
+    }, [generateColumns]);
 
     return (
         <>
