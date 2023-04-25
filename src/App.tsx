@@ -14,6 +14,7 @@ import ArticlePreviewPage from './pages/articles/preview.page';
 import TagsListPage from './pages/tags/list.page';
 import UsersListPage from './pages/users/list.page';
 import ContactsListPage from './pages/contacts/list.page';
+import TestPage from './pages/test/test.page';
 
 import './styles/app.css';
 
@@ -30,6 +31,7 @@ function App() {
         { path: '/intro', component: <IntrosListPage /> },
         { path: '/users', component: <UsersListPage /> },
         { path: '/contacts', component: <ContactsListPage /> },
+        { path: '/test', component: <TestPage /> },
     ];
 
     return (

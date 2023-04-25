@@ -164,7 +164,9 @@ const ArticlesListPage = () => {
                 />
                 <Input.Search placeholder={`Search title`} allowClear onSearch={handleSearch} className="w-60" />
             </div>
-            <AntdTable tableData={tableData} tableHeader={tableHeader} pageSize={15} />
+            <div>
+                <AntdTable tableData={tableData} tableHeader={tableHeader} pageSize={15} />
+            </div>
         </>
     );
 };
