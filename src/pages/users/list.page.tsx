@@ -7,6 +7,8 @@ import { ContactInterface } from '../../interfaces/ContactInterface';
 import { TableColumnInterface } from '../../interfaces/TableColumnInterface';
 import { capitalizeText } from '../../utils/utils';
 import { Tag } from 'antd';
+import CustomLink from '../../components/custom/link';
+import CustomButton from '../../components/custom/button';
 
 const UsersListPage = () => {
     const [tableData, setTableData] = useState<ContactInterface[]>([]);
@@ -73,6 +75,9 @@ const UsersListPage = () => {
     return (
         <>
             <H2Title>User</H2Title>
+            <CustomLink to="/update-password" className='mb-2'>
+                <CustomButton>Update Password</CustomButton>
+            </CustomLink>
             <AntdTable tableData={tableData} tableHeader={tableHeader} pageSize={15} />
         </>
     );

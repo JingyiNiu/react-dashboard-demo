@@ -17,6 +17,7 @@ import ContactsListPage from './pages/contacts/list.page';
 import TestPage from './pages/test/test.page';
 
 import './styles/app.css';
+import UpdatePasswordPage from './pages/users/update-password';
 
 function App() {
     const isToken = getItemInLocalStorage(TOKEN_KEY);
@@ -30,6 +31,7 @@ function App() {
         { path: '/tags', component: <TagsListPage /> },
         { path: '/intro', component: <IntrosListPage /> },
         { path: '/users', component: <UsersListPage /> },
+        { path: '/update-password', component: <UpdatePasswordPage /> },
         { path: '/contacts', component: <ContactsListPage /> },
         { path: '/test', component: <TestPage /> },
     ];

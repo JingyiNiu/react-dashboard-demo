@@ -31,7 +31,7 @@ const LoginPage = () => {
     return (
         <div className="mx-auto w-full max-w-sm mt-32">
             <h1 className="text-xl poppins-bold mb-8 text-primary-800 text-center">Please Login</h1>
-            <Form name="basic" initialValues={{ remember: true }} onFinish={onSubmit} onFinishFailed={onSubmitFailed}>
+            <Form name="login-form" initialValues={{ remember: true }} onFinish={onSubmit} onFinishFailed={onSubmitFailed}>
                 <Form.Item name="email" rules={[{ required: true }]} className="mb-8">
                     <Input placeholder="Email" size="large" />
                 </Form.Item>

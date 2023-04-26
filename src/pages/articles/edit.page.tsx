@@ -107,7 +107,7 @@ const ArticleEditPage = () => {
             <H2Title>{id ? 'Edit Article' : 'Create New Article'}</H2Title>
             <Form
                 form={form}
-                name="basic"
+                name="edit-article-form"
                 layout="vertical"
                 initialValues={{ remember: true }}
                 onFinish={onSubmit}

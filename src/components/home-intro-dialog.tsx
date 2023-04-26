@@ -66,7 +66,7 @@ const HomeIntroDialog = ({ data }: HomeIntroDialogProps) => {
             >
                 <Form
                 form={form}
-                name="basic"
+                name="home-intro-form"
                 layout="vertical"
                 initialValues={{ remember: true }}
                 onFinish={onSubmit}
