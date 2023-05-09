@@ -8,7 +8,6 @@ import AntdTable from '../../components/antd-table';
 import CustomButton from '../../components/custom/button';
 import H2Title from '../../components/custom/h2title';
 import { checkToken } from '../../hooks/useAuth';
-import { capitalizeText } from '../../utils/utils';
 import CustomLink from '../../components/custom/link';
 import { TableColumnInterface } from '../../interfaces/TableColumnInterface';
 
@@ -17,47 +16,78 @@ const ArticlesListPage = () => {
         checkToken();
     }, []);
 
-    const API_END_POINT = '/api/admin/article';
-
     const [data, setData] = useState([]);
 
     const [tableData, setTableData] = useState([]);
     const [tableHeader, setTableHeader] = useState<TableColumnInterface[]>([]);
 
     const [filterIndex, setFilterIndex] = useState(NaN);
-    const [searchText, setSearchText] = useState('0');
+    const [searchText, setSearchText] = useState('');
 
     const generateData = (data: any) => {
         const tableData = data.map((item: any) => ({
             ...item,
             key: item.id,
-            is_public: item.is_public ? <span className="text-green-500">Yes</span> : <span>No</span>,
         }));
         setTableData(tableData);
     };
 
-    const filterColumns = (data: any) => {
-        const updatedColumns = data.filter(({ key }: { key: string }) => !['title_zh', 'content', 'content_zh', 'created_at', 'updated_at'].includes(key));
-        setTableHeader(updatedColumns);
-    };
-
-    const formatColumns = useCallback((data: any) => {
-        const formatedColumns = data.map((column: any) => {
-            if (column.key === 'tags') {
-                return {
-                    ...column,
-                    render: (tags: any) => (
-                        <span>
-                            {tags.map((tag: any) => {
-                                return <Tag key={tag.id}>{tag.name}</Tag>;
-                            })}
-                        </span>
-                    ),
-                };
-            }
-            return column;
-        });
-        const extraColumns = [
+    const generateColumns = useCallback(() => {
+        const columns = [
+            {
+                key: 'id',
+                title: 'ID',
+                dataIndex: 'id',
+                sorter: (a: any, b: any) => a.id - b.id,
+            },
+            {
+                key: 'sort_order',
+                title: 'Sort Order',
+                dataIndex: 'sort_order',
+                sorter: (a: any, b: any) => a.sort_order - b.sort_order,
+            },
+            {
+                key: 'is_public',
+                title: 'Is Public',
+                dataIndex: 'is_public',
+                sorter: (a: any, b: any) => a.is_public - b.is_public,
+                render: (text: any) => {
+                    if (text) {
+                        return <span className="text-green-500">Yes</span>;
+                    }
+                    return <span>No</span>;
+                },
+            },
+            {
+                key: 'slug',
+                title: 'Slug',
+                dataIndex: 'slug',
+                sorter: (a: any, b: any) => a.slug.toString().localeCompare(b.slug.toString()),
+            },
+            {
+                key: 'title',
+                title: 'Title',
+                dataIndex: 'title',
+                render: (_: any, item: any) => (
+                    <>
+                        {item.title}
+                        <br/>
+                        {item.title_zh}
+                    </>
+                ),
+            },
+            {
+                key: 'tags',
+                title: 'Tags',
+                dataIndex: 'tags',
+                render: (tags: any) => (
+                    <span>
+                        {tags.map((tag: any) => {
+                            return <Tag key={tag.id}>{tag.name}</Tag>;
+                        })}
+                    </span>
+                ),
+            },
             {
                 key: 'preview',
                 title: 'Preview',
@@ -65,7 +95,10 @@ const ArticlesListPage = () => {
                 render: (_: any, item: any) => (
                     <>
                         <CustomLink to={`/articles/preview/${item.key}`} target="_blank">
-                            View
+                            English
+                        </CustomLink>
+                        <CustomLink to={`/articles/preview-zh/${item.key}`} target="_blank">
+                            Chinese
                         </CustomLink>
                     </>
                 ),
@@ -85,31 +118,40 @@ const ArticlesListPage = () => {
                 ),
             },
         ];
-        filterColumns([...formatedColumns, ...extraColumns]);
+
+        setTableHeader(columns);
     }, []);
 
-    const generateColumns = useCallback(
-        (data: any) => {
-            const allColumns: any = Object.keys(data[0]).map((key) => {
-                return {
-                    key,
-                    title: capitalizeText(key.replace('_', ' ')),
-                    dataIndex: key,
-                    sorter: (a: any, b: any) => a[key].toString().localeCompare(b[key].toString()),
-                };
+    useEffect(() => {
+        const API_END_POINT = '/api/admin/article';
+        axiosClient
+            .get(API_END_POINT)
+            .then((res) => {
+                setData(res.data);
+                generateData(res.data);
+                generateColumns();
+            })
+            .catch((err) => {
+                console.warn(err);
             });
+    }, [generateColumns]);
 
-            formatColumns(allColumns);
-        },
-        [formatColumns]
-    );
+    const handleFilter = (filterIndex: number) => {
+        setFilterIndex(filterIndex);
+        handleFilterAndSearch(filterIndex, searchText);
+    };
 
-    const handleFilterAndSearch = (value: number, searchText: string) => {
+    const handleSearch = (searchText: string) => {
+        setSearchText(searchText);
+        handleFilterAndSearch(filterIndex, searchText);
+    };
+
+    const handleFilterAndSearch = (filterIndex: number, searchText: string) => {
         const filteredData = data.filter((item: any) => {
-            if (value === 1 && !item.is_public) {
+            if (filterIndex === 1 && !item.is_public) {
                 return false;
             }
-            if (value === 2 && item.is_public) {
+            if (filterIndex === 2 && item.is_public) {
                 return false;
             }
             if (searchText && item.title.indexOf(searchText) === -1) {
@@ -119,29 +161,6 @@ const ArticlesListPage = () => {
         });
         generateData(filteredData);
     };
-
-    const handleFilter = (value: number) => {
-        setFilterIndex(value);
-        handleFilterAndSearch(value, searchText);
-    };
-
-    const handleSearch = (searchText: string) => {
-        setSearchText(searchText);
-        handleFilterAndSearch(filterIndex, searchText);
-    };
-
-    useEffect(() => {
-        axiosClient
-            .get(API_END_POINT)
-            .then((res) => {
-                setData(res.data);
-                generateData(res.data);
-                generateColumns(res.data);
-            })
-            .catch((err) => {
-                console.warn(err);
-            });
-    }, [generateColumns]);
 
     return (
         <>
@@ -165,7 +184,7 @@ const ArticlesListPage = () => {
                 <Input.Search placeholder={`Search title`} allowClear onSearch={handleSearch} className="w-60" />
             </div>
             <div>
-                <AntdTable tableData={tableData} tableHeader={tableHeader} pageSize={15} />
+                <AntdTable tableData={tableData} tableHeader={tableHeader} pageSize={10} />
             </div>
         </>
     );

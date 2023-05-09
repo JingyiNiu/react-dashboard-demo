@@ -11,10 +11,19 @@ import 'prismjs/themes/prism-okaidia.css';
 const ArticlePreviewPage = () => {
     useEffect(() => {
         checkToken();
+        getUrl();
     }, []);
 
-    const { id } = useParams();
+    const [chinesePreview, setChinesePreview] = useState(false);
 
+    const getUrl = () => {
+        const path = window.location.pathname;
+        const url = path.split('/')[2];
+        if (url === 'preview-zh') {
+            setChinesePreview(true);
+        }
+    };
+    const { id } = useParams();
 
     const [article, setArticle] = useState<ArticleInterface>(initialArticleData);
 
@@ -36,12 +45,12 @@ const ArticlePreviewPage = () => {
     }, [id]);
 
     return (
-        <div className='bg-neutral-100 border-b-4 border-b-primary-500 p-4 md:pt-10 md:pb-16 md:px-20 m-8'>
-            <h2 className="my-4 text-2xl font-bold">{article.title}</h2>
+        <div className="bg-neutral-100 border-b-4 border-b-primary-500 p-4 md:pt-10 md:pb-16 md:px-20 m-8">
+            <h2 className="my-4 text-2xl font-bold">{chinesePreview ? parse(article.title_zh) : parse(article.title)}</h2>
             <h4 className="my-4 text-neutral-400 text-sm">
-                Published at {article.updated_at && formatDateToLocale(article.updated_at)}
+                {chinesePreview ? '发布于' : 'Published at'} {article.updated_at && formatDateToLocale(article.updated_at)}
             </h4>
-            <>{parse(article.content)}</>
+            <>{chinesePreview ? parse(article.content_zh) : parse(article.content)}</>
         </div>
     );
 };

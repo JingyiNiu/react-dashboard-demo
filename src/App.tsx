@@ -28,6 +28,7 @@ function App() {
         { path: '/articles/create', component: <ArticleEditPage /> },
         { path: '/articles/edit/:id', component: <ArticleEditPage /> },
         { path: '/articles/preview/:id', component: <ArticlePreviewPage /> },
+        { path: '/articles/preview-zh/:id', component: <ArticlePreviewPage /> },
         { path: '/tags', component: <TagsListPage /> },
         { path: '/intro', component: <IntrosListPage /> },
         { path: '/users', component: <UsersListPage /> },

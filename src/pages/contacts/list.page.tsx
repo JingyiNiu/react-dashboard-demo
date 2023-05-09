@@ -4,7 +4,7 @@ import { checkToken } from '../../hooks/useAuth';
 import axiosClient from '../../axios.config';
 import { ContactInterface } from '../../interfaces/ContactInterface';
 import { TableColumnInterface } from '../../interfaces/TableColumnInterface';
-import { capitalizeText } from '../../utils/utils';
+import { formatDate } from '../../utils/utils';
 import AntdTable from '../../components/antd-table';
 
 const ContactsListPage = () => {
@@ -23,16 +23,15 @@ const ContactsListPage = () => {
         setTableData(tableData);
     };
 
-    const generateColumns = useCallback((data: ContactInterface[]) => {
-        const allColumns: any = Object.keys(data[0]).map((key) => {
-            return {
-                key,
-                title: capitalizeText(key.replace('_', ' ')),
-                dataIndex: key,
-            };
-        });
+    const generateColumns = useCallback(() => {
+        const columns = [
+            { key: 'id', title: 'ID', dataIndex: 'id' },
+            { key: 'name', title: 'Name', dataIndex: 'name' },
+            { key: 'email', title: 'Email', dataIndex: 'email' },
+            { key: 'created_at', title: 'Created At', dataIndex: 'created_at', render: (text: string) => formatDate(text) },
+        ];
 
-        setTableHeader(allColumns);
+        setTableHeader(columns);
     }, []);
 
     const getApiData = useCallback(() => {
@@ -42,7 +41,7 @@ const ContactsListPage = () => {
             .get(API_END_POINT)
             .then((res) => {
                 generateData(res.data);
-                generateColumns(res.data);
+                generateColumns();
             })
             .catch((err) => {
                 console.warn(err);
