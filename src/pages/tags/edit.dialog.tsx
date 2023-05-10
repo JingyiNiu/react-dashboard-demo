@@ -5,11 +5,12 @@ import { useEffect } from 'react';
 type Props = {
     isOpen: boolean;
     data: TagInterface | null;
+    error: string;
     onClose: () => void;
     onSubmit: (values: any) => void;
 };
 
-const TagEditDialog = ({ isOpen, data, onClose, onSubmit }: Props) => {
+const TagEditDialog = ({ isOpen, data, error, onClose, onSubmit }: Props) => {
     const [form] = Form.useForm();
 
     useEffect(() => {
@@ -22,6 +23,7 @@ const TagEditDialog = ({ isOpen, data, onClose, onSubmit }: Props) => {
 
     const handleCancel = () => {
         onClose();
+        form.resetFields();
     };
 
     const onFinish = (values: any) => {
@@ -34,7 +36,7 @@ const TagEditDialog = ({ isOpen, data, onClose, onSubmit }: Props) => {
 
     return (
         <Modal
-            title={data ? `Edit Tag ${data.id}` : ''}
+            title={data ? `Edit Tag ${data.id}` : 'Create Tag'}
             open={isOpen}
             onOk={handleOk}
             onCancel={handleCancel}
@@ -48,6 +50,11 @@ const TagEditDialog = ({ isOpen, data, onClose, onSubmit }: Props) => {
             ]}
         >
             <Form form={form} layout="vertical" onFinish={onFinish} onFinishFailed={onFinishFailed}>
+                {data && (
+                    <Form.Item name="id" label="ID" rules={[{ required: true }]}>
+                        <Input />
+                    </Form.Item>
+                )}
                 <Form.Item name="name" label="Name" rules={[{ required: true }]}>
                     <Input />
                 </Form.Item>
@@ -58,6 +65,7 @@ const TagEditDialog = ({ isOpen, data, onClose, onSubmit }: Props) => {
                     <Input />
                 </Form.Item>
             </Form>
+            {error && <div className="text-rose-500 bg-rose-100 p-4 rounded-lg">{error}</div>}
         </Modal>
     );
 };

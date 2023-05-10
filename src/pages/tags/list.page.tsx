@@ -9,6 +9,7 @@ import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import { TagInterface } from '../../interfaces/TagInterface';
 import TagEditDialog from './edit.dialog';
 import { checkToken } from '../../hooks/useAuth';
+import CustomButton from '../../components/custom/button';
 
 const TagsListPage = () => {
     useEffect(() => {
@@ -27,7 +28,7 @@ const TagsListPage = () => {
         setIsModalOpen(false);
     };
 
-    const handleEdit = (data: TagInterface) => {
+    const handleEdit = (data: any) => {
         setCurrentTag(data);
         setIsModalOpen(true);
     };
@@ -63,10 +64,16 @@ const TagsListPage = () => {
                     dataIndex: 'action',
                     render: (_: any, item: any) => (
                         <>
-                            <button className="w-6 h-6 rounded-sm bg-primary-800 text-white hover:text-white hover:bg-primary-900 mr-2" onClick={() => handleEdit(item)}>
+                            <button
+                                className="w-6 h-6 rounded-sm bg-primary-800 text-white hover:text-white hover:bg-primary-900 mr-2"
+                                onClick={() => handleEdit(item)}
+                            >
                                 <FormOutlined />
                             </button>
-                            <button className="w-6 h-6 rounded-sm bg-red-400 text-white hover:text-white hover:bg-red-500 mr-2" onClick={() => handleDelete(item)}>
+                            <button
+                                className="w-6 h-6 rounded-sm bg-red-400 text-white hover:text-white hover:bg-red-500 mr-2"
+                                onClick={() => handleDelete(item)}
+                            >
                                 <DeleteOutlined />
                             </button>
                         </>
@@ -103,20 +110,43 @@ const TagsListPage = () => {
                 generateColumns(res.data);
             })
             .catch((err) => {
-                console.warn(err);
+                console.warn(err.response);
             });
     }, [generateColumns]);
 
+    const [submitError, setSubmitError] = useState('');
+
     const handleSubmit = (values: any) => {
-        const API_END_POINT = `/api/admin/tag/${currentTag?.id}`;
+        if (currentTag) {
+            updateTag(values, currentTag);
+        } else {
+            createTag(values);
+        }
+    };
+
+    const createTag = (data: any) => {
+        const API_END_POINT = `/api/admin/tag`;
         axiosClient
-            .put(API_END_POINT, values)
+            .post(API_END_POINT, data)
             .then((res) => {
                 handleCloseModal();
                 getApiData();
             })
             .catch((err) => {
-                console.warn(err);
+                setSubmitError(err.response.data.message ? err.response.data.message : 'Error, please try again later');
+            });
+    };
+
+    const updateTag = (data: any, currentTag: TagInterface) => {
+        const API_END_POINT = `/api/admin/tag/${currentTag.id}`;
+        axiosClient
+            .put(API_END_POINT, data)
+            .then((res) => {
+                handleCloseModal();
+                getApiData();
+            })
+            .catch((err) => {
+                setSubmitError(err.response.data.message ? err.response.data.message : 'Error, please try again later');
             });
     };
 
@@ -127,8 +157,11 @@ const TagsListPage = () => {
     return (
         <>
             <H2Title>Tags</H2Title>
+            <CustomButton className="mb-4" onClick={() => handleEdit(null)}>
+                New Tag
+            </CustomButton>
             <AntdTable tableData={tableData} tableHeader={tableHeader} pageSize={15} />
-            <TagEditDialog isOpen={isModalOpen} data={currentTag} onClose={handleCloseModal} onSubmit={handleSubmit} />
+            <TagEditDialog isOpen={isModalOpen} data={currentTag} error={submitError} onClose={handleCloseModal} onSubmit={handleSubmit} />
         </>
     );
 };

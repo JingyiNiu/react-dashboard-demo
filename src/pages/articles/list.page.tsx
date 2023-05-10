@@ -44,12 +44,14 @@ const ArticlesListPage = () => {
                 key: 'sort_order',
                 title: 'Sort Order',
                 dataIndex: 'sort_order',
+                width: 50,
                 sorter: (a: any, b: any) => a.sort_order - b.sort_order,
             },
             {
                 key: 'is_public',
                 title: 'Is Public',
                 dataIndex: 'is_public',
+                width: 50,
                 sorter: (a: any, b: any) => a.is_public - b.is_public,
                 render: (text: any) => {
                     if (text) {
@@ -70,9 +72,8 @@ const ArticlesListPage = () => {
                 dataIndex: 'title',
                 render: (_: any, item: any) => (
                     <>
-                        {item.title}
-                        <br/>
-                        {item.title_zh}
+                        <p>{item.title}</p>
+                        <p>{item.title_zh}</p>
                     </>
                 ),
             },
@@ -80,6 +81,7 @@ const ArticlesListPage = () => {
                 key: 'tags',
                 title: 'Tags',
                 dataIndex: 'tags',
+                width: 50,
                 render: (tags: any) => (
                     <span>
                         {tags.map((tag: any) => {
@@ -107,6 +109,7 @@ const ArticlesListPage = () => {
                 key: 'action',
                 title: 'Action',
                 dataIndex: 'action',
+                width: 50,
                 render: (_: any, item: any) => (
                     <>
                         <Link to={`/articles/edit/${item.key}`}>

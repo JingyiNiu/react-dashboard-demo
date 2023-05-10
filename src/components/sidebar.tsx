@@ -19,9 +19,8 @@ const Sidebar = () => {
     return (
         <SidebarContext.Provider value={toggleSidebar}>
             <div
-                className={`relative bg-neutral-100 transition-all duration-300 ease-in ${
-                    toggleSidebar ? 'w-20 min-w-20' : 'w-56 min-w-56'
-                }`}
+                className={`relative bg-neutral-100 transition-all duration-300 ease-in 
+                ${toggleSidebar ? 'w-20 min-w-20' : 'w-56 min-w-56'} hidden md:block`}
             >
                 {/* Toggle button */}
                 <button
