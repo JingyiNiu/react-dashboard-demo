@@ -91,6 +91,11 @@ const ArticlesListPage = () => {
                 ),
             },
             {
+                key: 'view_count',
+                title: 'View Count',
+                dataIndex: 'view_count',
+            },
+            {
                 key: 'preview',
                 title: 'Preview',
                 dataIndex: 'preview',
